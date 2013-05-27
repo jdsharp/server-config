@@ -1,0 +1,17 @@
+# This disables apache built in "fuzy matching" of urls. (So that /foo doesn't get served by /foo.php)
+Options -MultiViews
+
+<IfModule mod_rewrite.c>
+     RewriteEngine on
+
+	 # Check if the file requested already exists on disk (for JavaScript, CSS, etc.)
+     RewriteCond %{REQUEST_FILENAME} !-f
+	 # Check if the file is a directory on disk
+     RewriteCond %{REQUEST_FILENAME} !-d
+
+	 # Set this to the root URL path of what you are serving from. So if your app is 
+	 # in /blog, set this to /blog if the .htaccess is in your blog directory
+     RewriteBase /
+	 # The file that everything will get routed to
+     RewriteRule ^(.*)$ index.php/$1 [L]
+</IfModule>
